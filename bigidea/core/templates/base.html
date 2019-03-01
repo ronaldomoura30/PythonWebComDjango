@@ -1,0 +1,77 @@
+<!doctype html>
+{% load static %}
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Simple MOOC - Uma simples plataforma de ensino a distância" />
+        <title>Big Idea</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type='text/javascript'src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+        
+        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}" /> -->
+        <script>
+            $(document).ready(function() {
+                // messages timeout for 10 sec 
+                setTimeout(function() {
+                    $('.message').fadeOut('slow');
+                }, 5000); // <-- time in milliseconds, 1000 =  1 sec
+
+                // delete message
+                $('.del-msg').on('click',function(){
+                    $('.del-msg').parent().attr('style', 'display:none;');
+                })
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
+                <a class="pure-menu-heading" href="{% url 'home' %}"> Big Idea </a>
+                <ul>
+                    <li class="pure-menu-selected">
+                        <a href="{% url 'home' %}">Início</a>
+                    </li>
+                    <li><a href="{% url 'cursos' %}">Cursos</a></li>
+                    <li><a href="{% url 'contact' %}">Contato</a></li>
+
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Painel</a></li>
+                    <li><a href="{% url 'logout' %}">Sair</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Entrar</a></li>
+                    {% endif %}
+                </ul>   
+            </div>
+        </div>
+            <div class="content">
+                {% if messages %}
+                <div class = "pure-g-r content-ribbon message"> 
+                    <aside class="pure-u-1 del-msg" href="#">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+                                Important: 
+                                {% endif %}
+                                {{ message }}
+                                
+                                <a style="position:absolute; top:0; right:0; href="#" class="del-msg">
+                                    &times;
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </aside>
+                </div>
+                {% endif %}
+
+                {% block content %} {% endblock %}
+                <div class="footer">
+                    Big Idea - Analisar, Aprender e Gerar Valor
+                </div>
+            </div>
+        <script src="http://yui.yahooapis.com/3.12.0/build/yui/yui-min.js"></script>
+    </body>
+</html>

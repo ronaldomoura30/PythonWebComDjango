@@ -1,0 +1,56 @@
+{% extends "courses/menu_course.html" %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+    <li style='display: inline;'>/</li>
+    <li style='display: inline;'>
+    	<a href="{% url 'show_announcement' course.slug announcements.pk %}">
+    		{{ announcements.title }}
+    	</a>
+   	</li>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="well">
+	<h2> {{ announcements.title }}</h2>
+	{{ announcements.content|linebreaks }}
+</div>
+
+<div class="well">
+	<h4 id="comments"> Comentários 
+		<a class="fright" href="#add_comment"> Comentar </a> 
+	</h4>
+	<hr />
+	{% for comment in announcements.comments.all %}
+	<p>
+		<strong> {{ comment.user }} </strong> disse à {{ comment.created_at|timesince }} atrás: <br/>
+			{{ comment.comment|linebreaksbr }}
+	</p>
+		<hr>
+		{% empty %}
+	
+   		<p> Nenhum comentário para este anúncio </p>
+   {% endfor %}
+	<form method="post" class="pure-form pure-form-stacked" id="add_comment">
+		{% csrf_token %}
+
+		<fieldset>
+			{{ form.non_field_errors }}
+			{% for field in form %}
+			<div class="pure-control-group">
+				<!-- <label for="password"> Comentário </label> -->
+				{{ field.label_tag }}
+				{{ field }}
+				{{ field.errors }}
+			</div>
+			{% endfor %}
+			<div class="pure-controls">
+				<button type="submit" class="pure-button pure-button-primary"> 
+					Enviar
+				</button>
+			</div>
+		</fieldset>		
+
+	</form>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'courses/menu_course.html'%}
+
+{% block dashboard_content %}
+<form action="#" method="post">
+	{% csrf_token %}
+
+	<h3> Você deseja realmente cancelar a inscrição deste curso? </h3>
+
+	<div class="pure-controls">
+		<button type="submit" href="{% url 'announcements' enrollment.course.slug %}" 
+		class="pure-button pure-button-primary">
+			Confirmar
+		</button>
+
+		<a href="{% url 'announcements' course.slug %}" class="pure-button button-error">	Voltar
+		</a>
+	</div>
+</form>
+{% endblock %}
