@@ -9,7 +9,7 @@ Django==2.1.5
 django-adminlte2==0.4.1
 django-toolbelt==0.0.1
 django-widget-tweaks==1.4.3
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 folium==0.7.0
 gunicorn==19.9.0
 idna==2.8
